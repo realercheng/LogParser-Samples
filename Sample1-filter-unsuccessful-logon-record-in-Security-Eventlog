@@ -1,0 +1,30 @@
+案例1-使用LogParer工具筛选本地计算机或者其他计算机上的“安全”事件日志文件，筛选出所有未成功的登陆记录，将结果导出成CSV格式：
+
+查找本地或远程计算机拷贝过来的“安全”事件日志文件，找出登陆未成功的用户记录：
+=================================================================
+LogParser.exe -stats:OFF -i:EVT "SELECT TimeGenerated AS Date, EXTRACT_TOKEN(Strings, 5, '|') as Username, EXTRACT_TOKEN(Strings, 6, '|') as Domain, EXTRACT_TOKEN(Strings, 10, '|') as LogonType,EXTRACT_TOKEN(strings, 11, '|') AS AuthPackage, EXTRACT_TOKEN(Strings, 13, '|') AS Workstation, EXTRACT_TOKEN(Strings, 19, '|') AS SourceIP FROM 'Security.evtx' WHERE EventID = 4625 AND Username NOT IN ('SYSTEM'; 'ANONYMOUS LOGON'; 'LOCAL SERVICE'; 'NETWORK SERVICE') AND Domain NOT IN ('NT AUTHORITY')" -o:csv >c:\temp\unsuccessful-logon.csv
+=================================================================
+
+查找本地计算机的“安全”事件日志文件，找出登陆未成功的用户记录：
+=================================================================
+LogParser.exe -stats:OFF -i:EVT "SELECT TimeGenerated AS Date, EXTRACT_TOKEN(Strings, 5, '|') as Username, EXTRACT_TOKEN(Strings, 6, '|') as Domain, EXTRACT_TOKEN(Strings, 10, '|') as LogonType,EXTRACT_TOKEN(strings, 11, '|') AS AuthPackage, EXTRACT_TOKEN(Strings, 13, '|') AS Workstation, EXTRACT_TOKEN(Strings, 19, '|') AS SourceIP FROM Security WHERE EventID = 4625 AND Username NOT IN ('SYSTEM'; 'ANONYMOUS LOGON'; 'LOCAL SERVICE'; 'NETWORK SERVICE') AND Domain NOT IN ('NT AUTHORITY')" -o:csv >c:\temp\unsuccessful-logon.csv
+=================================================================
+
+结果可参照如下：
+=================================================================
+Date	Username	Domain	LogonType	AuthPackage	Workstation	SourceIP
+2017/12/19 20:51	Administrator	HOST1	2	User32 	HOST1	127.0.0.1
+2017/12/20 21:24	Administrator	HOST1	7	User32 	HOST1	127.0.0.1
+2017/12/28 23:53	Administrator	HOST1	7	User32 	HOST1	127.0.0.1
+2018/1/6 8:25	Administrator	HOST1	7	User32 	HOST1	127.0.0.1
+2018/1/11 23:33	Administrator	HOST1	2	User32 	HOST1	127.0.0.1
+2018/1/11 23:33	Administrator	HOST1	2	User32 	HOST1	127.0.0.1
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+2018/1/15 0:25	Administrator	BENSERVER	3	NtLmSsp 	BENSERVER	192.168.255.254
+=================================================================
