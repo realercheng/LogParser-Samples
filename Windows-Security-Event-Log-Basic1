@@ -1,0 +1,26 @@
+c:\Program Files (x86)\Log Parser 2.2>LogParser "SELECT TimeGenerated AS LogonDate, EXTRACT_TOKEN(Strings, 1, '|') AS Account, EventID AS Event_ID, EventType AS Event_Type, EventTypeName AS Event_Type_Name, EventCategory AS Event_Category, EventCategoryName AS Event_Category_Name INTO security-3.csv FROM Security WHERE EventID NOT IN (541;542;543) AND EventType = 16" -i:EVT -o:CSV
+
+====================================================Parameters====================================================
+EventType: 8 Success Audit event, 16 Failure Audit event
+EventCategory: <Task>12290</Task>
+EXTRACT_TOKEN(Strings, 1, '|'): 0 SubjectUserSid, 1 SubjectUserName, 2 SubjectDomainName
+  <EventData>
+  <Data Name="SubjectUserSid">S-1-5-21-2441009965-704082795-3095107451-500</Data> 
+  <Data Name="SubjectUserName">Administrator</Data> 
+  <Data Name="SubjectDomainName">HOST1</Data> 
+  <Data Name="SubjectLogonId">0x5a148</Data> 
+  <Data Name="ProviderName">Microsoft Software Key Storage Provider</Data> 
+  <Data Name="AlgorithmName">UNKNOWN</Data> 
+  <Data Name="KeyName">CD1CC265-0DA0-4230-8419-CB6F808FE688</Data> 
+  <Data Name="KeyType">%%2500</Data> 
+  <Data Name="Operation">%%2480</Data> 
+  <Data Name="ReturnCode">0x80090016</Data> 
+  </EventData>
+-i:<input_format>   :  one of IISW3C, NCSA, IIS, IISODBC, BIN, IISMSID, HTTPERR, URLSCAN, CSV, TSV, W3C, XML, EVT, ETW, NETMON, REG, ADS,                          TEXTLINE, TEXTWORD, FS, COM (if omitted, will guess from the FROM clause)
+-o:<output_format>  :  one of CSV, TSV, XML, DATAGRID, CHART, SYSLOG, NEUROVIEW, NAT, W3C, IIS, SQL, TPL, NULL (if omitted, will guess from                        the INTO clause)
+FROM 'E:\logparser\xx.evtx'/ FROM Security / FROM \\MYServer1\Security
+====================================================Parameters====================================================
+
+LogonDate	Account	Event_ID	Event_Type	Event_Type_Name	Event_Category	Event_Category_Name
+2017/12/19 20:51	HOST1$	4625	16	Failure Audit event	12544	The name for category 12544 in Source "Microsoft-Windows-Security-Auditing" cannot be found. 
+2017/12/19 21:03	Administrator	5061	16	Failure Audit event	12290	The name for category 12290 in Source "Microsoft-Windows-Security-Auditing" cannot be found.
