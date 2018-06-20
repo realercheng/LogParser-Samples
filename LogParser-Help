@@ -1,0 +1,34 @@
+============================================LogParser /?============================================
+Microsoft (R) Log Parser Version 2.2.10
+Copyright (C) 2004 Microsoft Corporation. All rights reserved.
+
+Usage:   LogParser [-i:<input_format>] [-o:<output_format>] <SQL query> | file:<query_filename>[?param1=value1+...] [<input_format_options>] [<output_format_options>][-q[:ON|OFF]] [-			e:<max_errors>] [-iw[:ON|OFF]] [-stats[:ON|OFF]] [-saveDefaults] [-queryInfo]
+
+         LogParser -c -i:<input_format> -o:<output_format> <from_entity> <into_entity> [<where_clause>] [<input_format_options>] [<output_format_options>] [-multiSite[:ON|OFF]] [-q[:ON|			OFF]] [-e:<max_errors>] [-iw[:ON|OFF]] [-stats[:ON|OFF]] [-queryInfo]
+
+ -i:<input_format>   :  one of IISW3C, NCSA, IIS, IISODBC, BIN, IISMSID, HTTPERR, URLSCAN, CSV, TSV, W3C, XML, EVT, ETW, NETMON, REG, ADS, TEXTLINE, TEXTWORD, FS, COM (if omitted, will 			guess from the FROM clause)
+ -o:<output_format>  :  one of CSV, TSV, XML, DATAGRID, CHART, SYSLOG, NEUROVIEW, NAT, W3C, IIS, SQL, TPL, NULL (if omitted, will guess from the INTO clause)
+ -q[:ON|OFF]         :  quiet mode; default is OFF
+ -e:<max_errors>     :  max # of parse errors before aborting; default is -1 (ignore all)
+ -iw[:ON|OFF]        :  ignore warnings; default is OFF
+ -stats[:ON|OFF]     :  display statistics after executing query; default is ON
+ -c                  :  use built-in conversion query
+ -multiSite[:ON|OFF] :  send BIN conversion output to multiple files depending on the SiteID value; default is OFF
+ -saveDefaults       :  save specified options as default values
+ -restoreDefaults    :  restore factory defaults
+ -queryInfo          :  display query processing information (does not execute the query)
+
+
+Examples:
+ LogParser "SELECT date, REVERSEDNS(c-ip) AS Client, COUNT(*) FROM file.log WHERE sc-status<>200 GROUP BY date, Client" -e:10
+ LogParser file:myQuery.sql?myInput=C:\temp\ex*.log+myOutput=results.csv
+ LogParser -c -i:BIN -o:W3C file1.log file2.log "ComputerName IS NOT NULL"
+
+Help:
+ -h GRAMMAR                  : SQL Language Grammar
+ -h FUNCTIONS [ <function> ] : Functions Syntax
+ -h EXAMPLES                 : Example queries and commands
+ -h -i:<input_format>        : Help on <input_format>
+ -h -o:<output_format>       : Help on <output_format>
+ -h -c                       : Conversion help
+ ============================================LogParser /?============================================
